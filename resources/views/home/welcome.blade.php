@@ -32,34 +32,34 @@
                                     style="width: 50%; height: auto; margin-right: 16px;">
                                 <h2 class="card-title text-xl font-semibold mb-0"
                                     style="font-size: 1.5rem; font-family: 'Poppins', sans-serif; font-weight: bold;">
-                                    Data Guru</h2>
+                                    Guru Mapel</h2>
                             </div>
                         </div>
                     </a>
                 </div>
 
                 <div class="col-md-4">
-                    <a href="/todo" class="text-decoration-none">
+                    <a href="/guru" class="text-decoration-none">
                         <div class="card bg-white shadow-sm mb-2 hover-shadow">
                             <div class="card-body d-flex align-items-center">
                                 <img src="{{ asset('dist/img/gift/mentorship.gif') }}" alt=""
                                     style="width: 50%; height: auto; margin-right: 16px;">
                                 <h2 class="card-title text-xl font-semibold mb-0"
                                     style="font-size: 1.5rem; font-family: 'Poppins', sans-serif; font-weight: bold;">
-                                    PKG BK</h2>
+                                    Guru BK</h2>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
+                    <a href="/guru" class="text-decoration-none">
                         <div class="card bg-white shadow-sm mb-2 hover-shadow">
                             <div class="card-body d-flex align-items-center">
                                 <img src="{{ asset('dist/img/gift/professor.gif') }}" alt=""
                                     style="width: 50%; height: auto; margin-right: 16px;">
                                 <h2 class="card-title text-xl font-semibold mb-0"
                                     style="font-size: 1.5rem; font-family: 'Poppins', sans-serif; font-weight: bold;">
-                                    Database</h2>
+                                    Perpustakaan </h2>
                             </div>
                         </div>
                     </a>

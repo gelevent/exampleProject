@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('data', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('gelar');
-            $table->string('role')->nullable();
+            $table->string('nik');
+            $table->string('ttl')->nullable();
             $table->string('guruMapel')->nullable();
+            $table->string('jenisKelamin')->nullable();
+            $table->string('pendidikan')->nullable();
             $table->timestamps();
         });
     }

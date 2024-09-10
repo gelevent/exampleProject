@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\dataGuru;
 use Illuminate\Http\Request;
+use PDF;
 
 class GuruController extends Controller
 {
@@ -18,17 +19,27 @@ class GuruController extends Controller
         // dd($request->all);
         $request->validate([
             'name' => 'required',
-            'gelar' => 'required',
+            'nik' => 'required',
+            'ttl' => 'required',
+            'guruMapel' => 'required',
+            'jenisKelamin' => 'required',
+            'pendidikan' => 'required',
         ], [
             'name.required' => 'Nama Guru tidak boleh kosong',
-            'gelar.required' => 'Nama Gelar tidak boleh kosong',
-         ]);
+            'nik.required' => 'NIK tidak boleh kosong',
+            'ttl.required' => 'Tempat, Tanggal Lahir tidak boleh kosong',
+            'guruMapel.required' => 'Guru Mapel tidak boleh kosong',
+            'jenisKelamin.required' => 'Jenis Kelamin tidak boleh kosong',
+            'pendidikan.required' => 'Pendidikan tidak boleh kosong'
+        ]);
 
         dataGuru::create([
             'name' => $request->name,
-            'gelar' => $request->gelar,
-            'role' => $request->role,
+            'nik' => $request->nik,
+            'ttl' => $request->ttl,
             'guruMapel' => $request->guruMapel,
+            'jenisKelamin' => $request->jenisKelamin,
+            'pendidikan' => $request->pendidikan,
         ]);
 
         return redirect('/guru')->with('success', 'Data Berhasil ditambah');
@@ -44,16 +55,20 @@ class GuruController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'gelar' => 'required|string|max:255',
-            'role' => 'required|string|max:255',
+            'nik' => 'required|string|max:255',
+            'ttl' => 'required|string|max:255',
             'guruMapel' => 'required|string|max:255',
+            'jenisKelamin' => 'required|string|max:255',
+            'pendidikan' => 'required|string|max:255',
 
         ]);
         dataGuru::findOrFail($id)->update([
             'name' => $request->name,
-            'gelar' => $request->gelar,
-            'role' => $request->role,
+            'nik' => $request->nik,
+            'ttl' => $request->ttl,
             'guruMapel' => $request->guruMapel,
+            'jenisKelamin' => $request->jenisKelamin,
+            'pendidikan' => $request->pendidikan,
 
         ]);
         return redirect('/guru')->with('success', 'Data berhasil diperbarui.');
@@ -65,4 +80,25 @@ class GuruController extends Controller
 
         return redirect('/guru')->with('success', 'Data berhasil dihapus.');
     }
+    public function generatePDF($id)
+    {
+        $dataGuru = dataGuru::findOrFail($id);
+        $image_path = public_path('dist/img/pdf/Picture1.png');
+        $tahun_penilaian = date('Y');
+
+        $pdf = PDF::loadView('pdf.template', compact('dataGuru', 'image_path', 'tahun_penilaian'));
+
+        return $pdf->download('Profile Guru.pdf');
+    }
+    // DataGuruController.php
+
+    public function index(Request $request)
+    {
+        $query = $request->input('search');
+        $dataGuru = dataGuru::where('name', 'like', "%$query%")->get();
+
+        return view('dataGuru.guru', compact('dataGuru'));
+    }
+
+
 }

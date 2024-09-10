@@ -9,5 +9,5 @@ class dataGuru extends Model
 {
     use HasFactory;
     protected $table = ('data');
-    protected $fillable = ['name', 'gelar', 'role', 'guruMapel'];
+    protected $fillable = ['name', 'nik', 'ttl', 'guruMapel', 'jenisKelamin','pendidikan'];
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,22 +7,19 @@
     <title>Data Guru</title>
     <link rel="stylesheet" href="{{ asset('dist/css/tabler.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/demo.min.css') }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        .table-custom th,
-        .table-custom td {
-            text-align: center;
-            vertical-align: middle;
+        .card-container {
+            max-height: calc(3 * 12rem);
+            overflow-y: auto;
         }
 
-        .btn-custom-yellow {
-            color: #A6C210;
-            border-color: #A6C210;
+        .card-container::-webkit-scrollbar {
+            display: none;
         }
 
-        .btn-custom-yellow:hover {
-            background-color: #A6C210;
-            color: white;
+        .card-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
@@ -125,44 +122,35 @@
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <button type="button" class="btn btn-outline-primary mt-3 mx-3" data-bs-toggle="modal"
-                    data-bs-target="#modal-report">
-                    Create Data
-                </button>
-                <a href="/teacher-performance" class="btn btn-outline btn-custom-yellow mt-3 px-6">Penilaian Guru</a>
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-outline-primary mt-3 mx-3" data-bs-toggle="modal"
+                        data-bs-target="#modal-report">
+                        Create Data
+                    </button>
+                    <a href="/teacher-performance" class="btn btn-outline-success mt-3 px-6">Penilaian Guru</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Tabel -->
-        <div class="mt-4">
-            <table class="table table-custom">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>NIK</th>
-                        <th>Tempat, Tanggal Lahir</th>
-                        <th>Guru Mapel</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Pendidikan</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($dataGuru as $item)
-                        <tr>
-                            <td>{{ $item->name }}</td>
-                            <td>{{ $item->nik }}</td>
-                            <td>{{ $item->ttl }}</td>
-                            <td>{{ $item->guruMapel }}</td>
-                            <td>{{ $item->jenisKelamin }}</td>
-                            <td>{{ $item->pendidikan }}</td>
-                            <td>
-                                <div class="btn-group gap-2">
+        <div class="card-container mt-4">
+            <div class="row">
+                @foreach ($dataGuru as $item)
+                    <div class="col-md-4 mb-3">
+                        <!-- Card -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $item->name }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">NIK: {{ $item->nik }}</h6>
+                                <p class="card-text">
+                                    <strong>Tempat, Tanggal Lahir:</strong> {{ $item->ttl }}<br>
+                                    <strong>Guru Mapel:</strong> {{ $item->guruMapel }}<br>
+                                    <strong>Jenis Kelamin:</strong> {{ $item->jenisKelamin }}<br>
+                                    <strong>Pendidikan:</strong> {{ $item->pendidikan }}
+                                </p>
+                                <div class="btn-group gap-2 mt-2">
                                     <!-- Button Edit -->
-                                    <button class="btn btn-icon btn-sm btn-outline btn-custom-yellow"
-                                        data-bs-toggle="modal" data-bs-target="#modalUpdate1{{ $item->id }}">
+                                    <button class="btn btn-icon btn-sm btn-outline-success" data-bs-toggle="modal"
+                                        data-bs-target="#modalUpdate1{{ $item->id }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -173,7 +161,6 @@
                                             <path d="M16 5l3 3" />
                                         </svg>
                                     </button>
-
                                     <!-- Button Delete -->
                                     <form action="{{ route('dataGuru.destroy', $item->id) }}" method="POST"
                                         style="display: inline;">
@@ -193,9 +180,23 @@
                                             </svg>
                                         </button>
                                     </form>
+                                    <!-- Button Download PDF -->
+                                    <a href="{{ route('download.pdf', $item->id) }}"
+                                        class="btn btn-icon btn-sm btn-outline-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M6 21h12a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-12a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2z" />
+                                            <path d="M6 11l6 6l6 -6" />
+                                            <path d="M12 3v12" />
+                                        </svg>
+                                    </a>
                                 </div>
-                            </td>
-                        </tr>
+
+                            </div>
+                        </div>
 
                         <!-- Modal Update -->
                         <div class="modal modal-blur fade" id="modalUpdate1{{ $item->id }}" tabindex="-1"
@@ -203,7 +204,7 @@
                             <div class="modal-dialog modal-lg modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Update Data Guru</h5>
+                                        <h5 class="modal-title">Update Teacher</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -253,8 +254,7 @@
                                                         {{ $item->guruMapel == 'PAAS' ? 'selected' : '' }}>PAAS
                                                     </option>
                                                     <option value="PAI"
-                                                        {{ $item->guruMapel == 'PAI' ? 'selected' : '' }}>PAI
-                                                    </option>
+                                                        {{ $item->guruMapel == 'PAI' ? 'selected' : '' }}>PAI</option>
                                                     <option value="SIOT"
                                                         {{ $item->guruMapel == 'SIOT' ? 'selected' : '' }}>SIOT
                                                     </option>
@@ -307,21 +307,21 @@
                                             <a href="#" class="btn btn-link link-secondary"
                                                 data-bs-dismiss="modal">Cancel</a>
                                             <button class="btn btn-primary ms-auto" type="submit">Update
-                                                Data</button>
+                                                Report</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </tbody>
-            </table>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
     <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
     <script src="{{ asset('dist/js/demo.min.js') }}"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html>
+</html> -->
